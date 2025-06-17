@@ -75,7 +75,6 @@ const UserTable = () => {
       title: "फोटो (Photo)",
       dataIndex: "profilePhoto",
       key: "profilePhoto",
-      fixed: "left",
       width: 80,
       render: (url) => <Image width={40} src={url} preview={false} />,
     },
@@ -140,7 +139,6 @@ const UserTable = () => {
     {
       title: "कार्यहरू (Actions)",
       key: "actions",
-      fixed: "right",
       width: 120,
       render: (_, record) => (
         <Space>
