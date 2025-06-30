@@ -30,6 +30,7 @@ const UserTable = () => {
     queryKey: ["personalAll"],
     queryFn: getPersonalAll,
   });
+  console.log("data", data?.data?.profilePhoto);
 
   const deleteMutation = useMutation({
     mutationFn: (id) => deleteUser(id),

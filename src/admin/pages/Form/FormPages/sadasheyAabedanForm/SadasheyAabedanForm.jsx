@@ -184,36 +184,6 @@ const PersonalInfoForm = ({
           onFinish={onFinish}
           className="space-y-6"
         >
-          {/* Profile Photo */}
-          <Form.Item
-            label={<span className="font-semibold">Profile Photo</span>}
-            name="profilePhoto"
-            // rules={[{ required: true, message: "Please upload your photo" }]}
-          >
-            <Upload
-              listType="picture-card"
-              showUploadList={false}
-              customRequest={({ file, onSuccess }) => {
-                setTimeout(() => {
-                  onSuccess("ok");
-                }, 0);
-                setImageUrl(URL.createObjectURL(file));
-              }}
-            >
-              {imageUrl ? (
-                <img
-                  src={imageUrl}
-                  alt="avatar"
-                  className="rounded-xl w-full"
-                />
-              ) : (
-                <div>
-                  <div className="text-gray-500">Upload Photo</div>
-                </div>
-              )}
-            </Upload>
-          </Form.Item>
-
           {/* Name */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Form.Item
@@ -237,9 +207,88 @@ const PersonalInfoForm = ({
             </Form.Item>
           </div>
 
+          {/* Personal Details */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <Form.Item
+              label="लिङ्ग (Gender)"
+              name="gender"
+              rules={[{ required: true, message: "Gender is required" }]}
+            >
+              <Select placeholder="Select Gender">
+                <Option value="male">पुरुष (Male)</Option>
+                <Option value="female">महिला (Female)</Option>
+                <Option value="other">अन्य (Other)</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item label="जन्म मिति (Date of Birth)" required>
+              <Form.Item
+                name="dob"
+                noStyle
+                rules={[{ required: true, message: "जन्म मिति आवश्यक छ" }]}
+              >
+                <NepaliDatePicker
+                  onChange={(value) => form.setFieldsValue({ dob: value })}
+                  inputClassName="w-full p-1 rounded-md border border-gray-300"
+                />
+              </Form.Item>
+            </Form.Item>
+
+            <Form.Item
+              label="रक्त समूह (Blood Group)"
+              name="bloodGroup"
+              rules={[{ required: true, message: "Blood group is required" }]}
+            >
+              <Select placeholder="Select">
+                {bloodGroup?.data?.map((item, index) => (
+                  <Option key={index}>{item.name}</Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              label="नागरिकता नं. (Citizenship No.)"
+              name="citizenship"
+              rules={[
+                { required: true, message: "Citizenship number is required" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="पासपोर्ट नं. (Passport No.)"
+              name="passport"
+              rules={[
+                { required: true, message: "Passport number is required" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="मोबाइल नं. (Mobile No.)"
+              name="mobile"
+              rules={[{ required: true, message: "Mobile number is required" }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="इमेल (Email)"
+              name="email"
+              rules={[
+                { required: true, message: "Email is required" },
+                { type: "email", message: "Invalid email format" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </div>
+
           {/* Permanent Address */}
           <Form.Item label="स्थायी ठेगाना (Permanent Address)">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
               <Form.Item
                 label="प्रदेश (Province)"
                 name="permanentProvince"
@@ -327,7 +376,7 @@ const PersonalInfoForm = ({
               </div>
             }
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
               <Form.Item
                 label="प्रदेश (Province)"
                 name="temporaryProvince"
@@ -393,107 +442,49 @@ const PersonalInfoForm = ({
             </div>
           </Form.Item>
 
-          {/* Other Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Form.Item label="जन्म मिति (Date of Birth)" required>
-              <Form.Item
-                name="dob"
-                noStyle
-                rules={[{ required: true, message: "जन्म मिति आवश्यक छ" }]}
-              >
-                <NepaliDatePicker
-                  onChange={(value) => form.setFieldsValue({ dob: value })}
-                  inputClassName="w-full p-1 rounded-md border border-gray-300"
-                />
-              </Form.Item>
-            </Form.Item>
-
+          {/* Occupation & Organization */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Form.Item
-              label="रक्त समूह (Blood Group)"
-              name="bloodGroup"
-              rules={[{ required: true, message: "Blood group is required" }]}
-            >
-              <Select placeholder="Select">
-                {bloodGroup?.data?.map((item, index) => (
-                  <Option key={index}>{item.name}</Option>
-                ))}
-              </Select>
-            </Form.Item>
-
-            <Form.Item
-              label="मोबाइल नं. (Mobile No.)"
-              name="mobile"
-              rules={[{ required: true, message: "Mobile number is required" }]}
+              label="पेशा (Occupation)"
+              name="occupation"
+              rules={[{ required: true, message: "Occupation is required" }]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label="इमेल (Email)"
-              name="email"
-              rules={[
-                { required: true, message: "Email is required" },
-                { type: "email", message: "Invalid email format" },
-              ]}
+              label="पद (Position)"
+              name="position"
+              rules={[{ required: true, message: "Position is required" }]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label="नागरिकता नं. (Citizenship No.)"
-              name="citizenship"
-              rules={[
-                { required: true, message: "Citizenship number is required" },
-              ]}
+              label="संस्था (Organization)"
+              name="organization"
+              rules={[{ required: true, message: "Organization is required" }]}
             >
               <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="पासपोर्ट नं. (Passport No.)"
-              name="passport"
-              rules={[
-                { required: true, message: "Passport number is required" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="देश (Country)"
-              name="country"
-              rules={[{ required: true, message: "Country is required" }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item label="फर्किएको मिति (Date of Return)" required>
-              <Form.Item
-                name="returnDate"
-                noStyle
-                rules={[{ required: true, message: "फर्किएको मिति आवश्यक छ" }]}
-              >
-                <NepaliDatePicker
-                  onChange={(value) =>
-                    form.setFieldsValue({ returnDate: value })
-                  }
-                  inputClassName="w-full p-1 rounded-md border border-gray-300"
-                />
-              </Form.Item>
-            </Form.Item>
-
-            <Form.Item
-              label="विदेशमा विताएको अवधि (Period Abroad)"
-              name="timeSpendAbroad"
-              rules={[{ required: true, message: "This field is required" }]}
-            >
-              <Input type="number" />
             </Form.Item>
           </div>
 
-          {/* Skills & Education */}
+          {/* Education & Experience */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Form.Item
+              label="शैक्षिक योग्यता (Education)"
+              name="education"
+              rules={[{ required: true, message: "Education is required" }]}
+            >
+              <Select placeholder="Select">
+                <Option value="bachelors">Bachelors</Option>
+                <Option value="masters">Masters</Option>
+                <Option value="phd">PhD</Option>
+              </Select>
+            </Form.Item>
+             {/* Foreign Skills Section */}
           <Form.Item
-            label="विदेशमा सिकेको सिप / तालिम"
+            label="विदेशमा सिकेको सिप / तालिम (Skills/Training Learned Abroad)"
             name="foreignSkills"
             rules={[
               { required: true, message: "Please select at least one skill" },
@@ -518,7 +509,7 @@ const PersonalInfoForm = ({
               getFieldValue("foreignSkills")?.includes("other") ? (
                 <Form.Item
                   name="otherForeignSkills"
-                  label="कृपया अन्य सिप / तालिमको विवरण लेख्नुहोस्"
+                  label="कृपया अन्य सिप / तालिमको विवरण लेख्नुहोस् (Please specify other skills/training)"
                   rules={[
                     { required: true, message: "Please specify your skills" },
                   ]}
@@ -528,52 +519,48 @@ const PersonalInfoForm = ({
               ) : null
             }
           </Form.Item>
-
-          {/* Education/Occupation */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Form.Item
-              label="शैक्षिक योग्यता (Education)"
-              name="education"
-              rules={[{ required: true, message: "Education is required" }]}
-            >
-              <Select placeholder="Select">
-                <Option value="bachelors">Bachelors</Option>
-                <Option value="masters">Masters</Option>
-                <Option value="phd">PhD</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="पेशा (Occupation)"
-              name="occupation"
-              rules={[{ required: true, message: "Occupation is required" }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="संस्था (Organization)"
-              name="organization"
-              rules={[{ required: true, message: "Organization is required" }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="पद (Position)"
-              name="position"
-              rules={[{ required: true, message: "Position is required" }]}
-            >
-              <Input />
-            </Form.Item>
           </div>
 
           <Form.Item
             label="कार्य अनुभव (Work Experience)"
             name="experience"
-            rules={[
-              { required: true, message: "Please provide work experience" },
-            ]}
+              rules={[
+                { required: true, message: "Please provide work experience" },
+              ]}
           >
             <Input.TextArea rows={4} />
+          </Form.Item>
+
+         
+
+          {/* Profile Photo */}
+          <Form.Item
+            label={<span className="font-semibold">Profile Photo</span>}
+            name="profilePhoto"
+            // rules={[{ required: true, message: "Please upload your photo" }]}
+          >
+            <Upload
+              listType="picture-card"
+              showUploadList={false}
+              customRequest={({ file, onSuccess }) => {
+                setTimeout(() => {
+                  onSuccess("ok");
+                }, 0);
+                setImageUrl(URL.createObjectURL(file));
+              }}
+            >
+              {imageUrl ? (
+                <img
+                  src={imageUrl}
+                  alt="avatar"
+                  className="rounded-xl w-full"
+                />
+              ) : (
+                <div>
+                  <div className="text-gray-500">Upload Photo</div>
+                </div>
+              )}
+            </Upload>
           </Form.Item>
 
           {/* Submit */}
